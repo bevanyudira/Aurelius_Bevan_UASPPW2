@@ -36,9 +36,10 @@
         <div class="card-header">DATA</div>
         <div class="card-body">
             <div class="list-group">
-                <a href="{{ route('') }}" class="list-group-item list-group-item-action">Tambah Transaksi</a>
-                <a href="{{ route('') }}" class="list-group-item list-group-item-action">Lihat Transaksi</a>
-                <a href="{{ route('') }}" class="list-group-item list-group-item-action">Lihat Transaksi Detail</a>
+                <a href="{{ route('transaksi.create') }}" class="list-group-item list-group-item-action">Tambah Transaksi</a>
+                <a href="{{ route('transaksi.index') }}" class="list-group-item list-group-item-action">Lihat Transaksi</a>
+                <a href="{{ route('transaksidetail.index') }}" class="list-group-item list-group-item-action">Lihat Transaksi Detail</a>
+
             </div>
         </div>
     </div>
