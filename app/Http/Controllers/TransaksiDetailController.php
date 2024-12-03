@@ -11,20 +11,26 @@ class TransaksiDetailController extends Controller
 {
     public function index()
     {
-        $transaksidetail = TransaksiDetail::with('transaksi')->orderBy('id', 'DESC')->get();
+        // Mengambil semua transaksi detail dengan relasi transaksi
+        $transaksidetail = TransaksiDetail::with('transaksi')
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return view('transaksidetail.index', compact('transaksidetail'));
     }
 
     public function detail(Request $request)
     {
-        $transaksi = Transaksi::with('transaksidetail')->findOrFail($request->id_transaksi);
+        // Mengambil transaksi berdasarkan id dan relasi transaksidetail
+        $transaksi = Transaksi::with('transaksidetail')
+            ->findOrFail($request->id_transaksi);
 
         return view('transaksidetail.detail', compact('transaksi'));
     }
 
     public function edit($id)
     {
+        // Mengambil transaksi detail berdasarkan id
         $transaksidetail = TransaksiDetail::findOrFail($id);
 
         return view('transaksidetail.edit', compact('transaksidetail'));
@@ -32,6 +38,7 @@ class TransaksiDetailController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validasi input dari form
         $request->validate([
             'nama_produk' => 'required|string',
             'harga_satuan' => 'required|numeric',
@@ -39,8 +46,9 @@ class TransaksiDetailController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
+            DB::beginTransaction();  // Memulai transaksi
 
+            // Cari transaksi detail berdasarkan id
             $transaksidetail = TransaksiDetail::findOrFail($id);
             $transaksidetail->nama_produk = $request->input('nama_produk');
             $transaksidetail->harga_satuan = $request->input('harga_satuan');
@@ -48,18 +56,18 @@ class TransaksiDetailController extends Controller
             $transaksidetail->subtotal = $request->input('harga_satuan') * $request->input('jumlah');
             $transaksidetail->save();
 
-            // Update transaksi total
+            // Update total harga transaksi
             $transaksi = Transaksi::findOrFail($transaksidetail->id_transaksi);
             $transaksi->total_harga = $transaksi->transaksidetail->sum('subtotal');
             $transaksi->kembalian = $transaksi->bayar - $transaksi->total_harga;
             $transaksi->save();
 
-            DB::commit();
+            DB::commit();  // Komit transaksi
 
             return redirect('transaksidetail/' . $transaksidetail->id_transaksi)
                 ->with('pesan', 'Berhasil mengubah data');
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollback();  // Rollback jika ada error
             return redirect()->back()
                 ->withErrors(['Transaction' => 'Gagal mengubah data'])
                 ->withInput();
@@ -69,24 +77,25 @@ class TransaksiDetailController extends Controller
     public function destroy($id)
     {
         try {
-            DB::beginTransaction();
+            DB::beginTransaction();  // Memulai transaksi
 
+            // Cari transaksi detail berdasarkan id
             $transaksidetail = TransaksiDetail::findOrFail($id);
             $transaksi = Transaksi::findOrFail($transaksidetail->id_transaksi);
 
-            $transaksidetail->delete();
+            $transaksidetail->delete();  // Hapus transaksi detail
 
             // Update total harga di transaksi
             $transaksi->total_harga = $transaksi->transaksidetail->sum('subtotal');
             $transaksi->kembalian = $transaksi->bayar - $transaksi->total_harga;
             $transaksi->save();
 
-            DB::commit();
+            DB::commit();  // Komit transaksi
 
             return redirect('transaksidetail/' . $transaksidetail->id_transaksi)
                 ->with('pesan', 'Berhasil menghapus data');
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollback();  // Rollback jika ada error
             return redirect()->back()
                 ->withErrors(['Transaction' => 'Gagal menghapus data']);
         }

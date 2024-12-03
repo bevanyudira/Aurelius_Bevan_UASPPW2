@@ -16,33 +16,33 @@
                     </ul>
                 </div>
             @endif
-            <form method="POST" action={{ route('transaksidetail.update', $transaksidetail->id) }}>
+            <form method="POST" action="{{ route('transaksidetail.update', $transaksidetail->id) }}">
                 @csrf
                 @method('PUT')
                 <div class="d-flex flex-column gap-4 mb-4">
                     <div class="form-group">
                         <label>Nama Produk</label>
-                        <input type="text" class="form-control" name="" value="{{ $transaksidetail-> }}" required>
+                        <input type="text" class="form-control" name="nama_produk" value="{{ old('nama_produk', $transaksidetail->nama_produk) }}" required>
                     </div>
                     <div class="form-group">
                         <label>Harga Satuan</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Rp</span>
-                            <input type="number" class="form-control" name="" value="{{ $transaksidetail-> }}" required>
+                            <input type="number" class="form-control" name="harga_satuan" value="{{ old('harga_satuan', $transaksidetail->harga_satuan) }}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Rp</span>
-                            <input type="number" class="form-control" name="" value="{{ $transaksidetail-> }}" required>
+                            <input type="number" class="form-control" name="jumlah" value="{{ old('jumlah', $transaksidetail->jumlah) }}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Subtotal</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Rp</span>
-                            <input type="text" class="form-control" name="" value="{{ $transaksidetail-> }}" disabled>
+                            <input type="text" class="form-control" name="subtotal" value="{{ old('subtotal', $transaksidetail->subtotal) }}" disabled>
                         </div>
                     </div>
                 </div>
@@ -51,21 +51,23 @@
         </div>
     </div>
 
+    {{-- Custom JS --}}
+    <script>
+        $(document).ready(function() {
+            function calculateSubtotal() {
+                const hargaSatuan = parseInt($('input[name="harga_satuan"]').val()) || 0;
+                const jumlah = parseInt($('input[name="jumlah"]').val()) || 0;
+                const subtotal = hargaSatuan * jumlah;
+                $('input[name="subtotal"]').val(subtotal);
+            }
 
-{{--customjs--}}
-<script>
-    $(document).ready(function() {
-        function calculateSubtotal() {
-            const hargaSatuan = parseInt($('input[name="harga_satuan"]').val()) || 0;
-            const jumlah = parseInt($('input[name="jumlah"]').val()) || 0;
-            const subtotal = hargaSatuan * jumlah;
-            $('input[name="subtotal"]').val(subtotal);
-        }
+            // Event listener untuk harga satuan dan jumlah
+            $('input[name="harga_satuan"], input[name="jumlah"]').on('input', function() {
+                calculateSubtotal();
+            });
 
-        $('input[name="harga_satuan"], input[name="jumlah"]').on('', function() {
+            // Inisialisasi perhitungan subtotal jika ada nilai default
             calculateSubtotal();
         });
-    });
-</script>
-
+    </script>
 @endsection
