@@ -1,5 +1,9 @@
+@extends('layouts')
 
-    <h2>Edit Transaksi</h2>
+@section('content')
+
+
+   <h2>Edit Transaksi</h2>
     <div class="card">
         <div class="card-header bg-white">
             <a href="{{ route('transaksi.index') }}" class="btn btn-outline-danger">Kembali</a>
@@ -65,3 +69,5 @@
         });
     });
 </script>
+
+@endsection

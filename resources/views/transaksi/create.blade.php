@@ -1,3 +1,7 @@
+@extends('layouts')
+
+@section('content')
+
 
     <h2>Tambah Transaksi</h2>
     <div class="card">
@@ -201,3 +205,5 @@
         });
     });
 </script>
+
+@endsection

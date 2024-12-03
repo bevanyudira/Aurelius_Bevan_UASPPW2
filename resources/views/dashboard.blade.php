@@ -1,4 +1,8 @@
 
+@extends('layouts')
+
+@section('content')
+
 <div class="d-flex flex-column gap-4">
     <div class="card">
         <div class="card-header">SUMMARY</div>
@@ -44,3 +48,5 @@
         </div>
     </div>
 </div>
+
+@endsection
