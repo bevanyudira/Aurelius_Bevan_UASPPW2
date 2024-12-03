@@ -28,18 +28,23 @@
                 @foreach ($transaksi as $index => $data)
                     <tr>
                         <td>{{ $index + 1 }}</td>
+                        <!-- Menggunakan Carbon untuk memformat tanggal -->
                         <td>{{ \Carbon\Carbon::parse($data->tanggal_pembelian)->format('d/m/Y') }}</td>
-                        <td class="text-end">{{ number_format($data->harga_total, 0, '.', '.') }}</td>
+                        <!-- Format harga dengan number_format -->
+                        <td class="text-end">{{ number_format($data->total_harga, 0, '.', '.') }}</td>
                         <td class="text-end">{{ number_format($data->bayar, 0, '.', '.') }}</td>
                         <td class="text-end">{{ number_format($data->kembalian, 0, '.', '.') }}</td>
                         <td>
                             <div class="d-flex gap-2">
+                                <!-- Tombol Edit -->
                                 <a href="{{ route('transaksi.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <!-- Form untuk menghapus data -->
                                 <form action="{{ route('transaksi.destroy', $data->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button onclick="return confirm('Yakin mau dihapus?')" type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                 </form>
+                                <!-- Tombol Detail -->
                                 <a href="{{ route('transaksidetail.detail', $data->id) }}" class="btn btn-info btn-sm">Detail</a>
                             </div>
                         </td>

@@ -23,6 +23,8 @@ class Transaksi extends Model
 
     public function transaksidetail()
     {
+        // Relasi one-to-many dengan TransaksiDetail
         return $this->hasMany(TransaksiDetail::class, 'id_transaksi', 'id');
     }
 }
+
