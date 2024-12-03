@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +16,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Super Admin',
             'email' => 'admin@mail.com',
-            'password' => Hash::make('admin'),
+            'password' => Hash::make('admin'), // Pastikan untuk menggunakan password yang lebih kuat di production
         ]);
     }
 }

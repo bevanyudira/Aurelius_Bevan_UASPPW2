@@ -11,6 +11,9 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
 
+    // Menonaktifkan pengelolaan otomatis timestamp (created_at, updated_at)
+    public $timestamps = false;
+
     protected $fillable = [
         'tanggal_pembelian',
         'total_harga',
@@ -23,4 +26,3 @@ class Transaksi extends Model
         return $this->hasMany(TransaksiDetail::class, 'id_transaksi', 'id');
     }
 }
-

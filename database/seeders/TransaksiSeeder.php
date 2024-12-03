@@ -16,18 +16,22 @@ class TransaksiSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $startDate = Carbon::create(); // startDate = 2024-11-01
-        $endDate = Carbon::create(); // endDate = 2024-11-10
+        // Tentukan tanggal mulai dan akhir
+        $startDate = Carbon::create(2024, 11, 1); // Tanggal mulai (1 November 2024)
+        $endDate = Carbon::create(2024, 11, 10); // Tanggal akhir (10 November 2024)
 
+        // Loop melalui rentang tanggal dari startDate sampai endDate
         for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
-            $numberOfTransactions = // gunakan faker untuk membuat angka antara 15 - 20
+            // Gunakan Faker untuk menghasilkan jumlah transaksi acak antara 15 dan 20
+            $numberOfTransactions = $faker->numberBetween(15, 20);
 
+            // Loop untuk membuat transaksi sebanyak $numberOfTransactions
             for ($i = 0; $i < $numberOfTransactions; $i++) {
                 Transaksi::create([
                     'tanggal_pembelian' => $date->format('Y-m-d'),
-                    'total_harga' => 0,
-                    'bayar' => 0,
-                    'kembalian' => 0,
+                    'total_harga' => 0, // Nilai sementara
+                    'bayar' => 0, // Nilai sementara
+                    'kembalian' => 0, // Nilai sementara
                 ]);
             }
         }

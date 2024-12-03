@@ -11,6 +11,9 @@ class TransaksiDetail extends Model
 
     protected $table = 'transaksi_detail';
 
+    // Menonaktifkan pengelolaan otomatis timestamp (created_at, updated_at)
+    public $timestamps = false;
+
     protected $fillable = [
         'id_transaksi',
         'nama_produk',
